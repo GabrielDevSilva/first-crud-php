@@ -2,37 +2,27 @@
 
 namespace App\Http\Controllers;
 
-use App\Helpers\Helpers;
-use Illuminate\Support\Facades\Cache;
+use App\Services\CepService;
 
 class CepController
 {
-  protected $helpers;
+  protected $cepService;
 
-  public function __construct(Helpers $helpers)
+  public function __construct(CepService $cepService)
   {
-    $this->helpers = $helpers;
+    $this->cepService = $cepService;
   }
-  /**
-   * verifica se ha cep no cache, caso nao, cria no banco e retorna os dados de endereço, caso exista apenas retorna
-   * @param string  $cep
-   * @return array
-   */
-  public function redisCep(String $cep)
+
+  public function getAddress(String $cep)
   {
-    $cep = preg_replace('/\D/', '', $cep);
+    try {
+      $cepData = $this->cepService->redisCep($cep);
 
-    $cacheKey = "cache_$cep";
-    $cacheData = Cache::get($cacheKey);
+      return response()->json($cepData);
+    } catch (\Throwable $exception) {
+      $errors = $exception->getMessage();
 
-    if ($cacheData) {
-      return $cacheData;
+      return response()->json(['error' => $errors], 422);
     }
-
-    $cepData = $this->helpers->getAddress($cep);
-
-    Cache::put($cacheKey, $cepData, now()->addHour());
-
-    return $cepData;
   }
 }

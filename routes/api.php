@@ -26,4 +26,4 @@ Route::get('/getallusers', [Controller::class, 'getAllUser']);
 Route::get('/getuser/{id}', [Controller::class, 'getOneUser']);
 Route::put('/updateuser/{id}', [Controller::class, 'updateUser']);
 Route::delete('/deluser/{id}', [Controller::class, 'deleteUser']);
-Route::get('/rediscep/{cep}', [CepController::class, 'redisCep']);
+Route::get('/getAddress/{cep}', [CepController::class, 'getAddress']);
