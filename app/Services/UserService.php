@@ -103,6 +103,28 @@ class UserService
   public function updateUser(Request $request, $id)
   {
     $user = User::find($id);
+    $cpf = $request->input('cpf');
+    $cns = $request->input('cns');
+
+    if ($request->has('cpf')) {
+      $validateCpf = $this->helpers->validateCpf($cpf);
+
+      if (!$validateCpf) {
+        throw ValidationException::withMessages([
+          'error' => "Cpf invalido."
+        ])->status(422);
+      }
+    }
+
+    if ($request->has('cns')) {
+      $validateCns = $this->helpers->validateCns($cns);
+
+      if (!$validateCns) {
+        throw ValidationException::withMessages([
+          'error' => "Cns invalido."
+        ])->status(422);
+      }
+    }
 
     if (!$user) {
       throw ValidationException::withMessages([

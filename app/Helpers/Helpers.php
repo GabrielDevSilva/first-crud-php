@@ -39,7 +39,6 @@ class Helpers
   {
     $cpf = preg_replace('/\D/', '', $cpf);
 
-
     if (strlen($cpf) != 11) {
       return false;
     }
@@ -59,7 +58,6 @@ class Helpers
   public function validateCns(String $cns)
   {
     $cns = preg_replace('/\D/', '', $cns);
-
 
     if (strlen($cns) != 15) {
       return false;
