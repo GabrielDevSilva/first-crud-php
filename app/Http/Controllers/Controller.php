@@ -25,13 +25,15 @@ class Controller extends BaseController
   public function createUser(Request $request)
   {
 
+    $cepController = new CepController($this->helpers);
+
     $cep = preg_replace('/\D/', '', $request->input('cep'));
     $cpf = $request->input('cpf');
     $cns = $request->input('cns');
 
     $validateCpf = $this->helpers->validateCpf($cpf);
     $validateCns = $this->helpers->validateCns($cns);
-    $dataAddress = $this->helpers->getAddress($cep);
+    $dataAddress = $cepController->redisCep($cep);
 
     if (!$validateCpf) {
       throw ValidationException::withMessages([
