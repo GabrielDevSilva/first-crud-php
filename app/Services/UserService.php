@@ -75,7 +75,8 @@ class UserService
 
   public function getAllUser()
   {
-    $users = User::all();
+    // $users = User::all(); pega todos os usuarios, porem nao pega das tabelas relacionadas
+    $users = User::with('address')->get();
 
     if ($users->isEmpty()) {
       throw ValidationException::withMessages([
@@ -88,7 +89,7 @@ class UserService
 
   public function getOneUser($id)
   {
-    $user = User::find($id);
+    $user = User::with('address')->find($id);
 
     if (!$user) {
       throw ValidationException::withMessages([
