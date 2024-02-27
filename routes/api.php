@@ -27,3 +27,5 @@ Route::get('/getuser/{id}', [Controller::class, 'getOneUser']);
 Route::put('/updateuser/{id}', [Controller::class, 'updateUser']);
 Route::delete('/deluser/{id}', [Controller::class, 'deleteUser']);
 Route::get('/getAddress/{cep}', [CepController::class, 'getAddress']);
+
+Route::post('/uploadusers', [Controller::class, 'uploadUsers']);

@@ -94,4 +94,16 @@ class Controller extends BaseController
       return response()->json(['error' => $errors], $code !== null ? $code : 422);
     }
   }
+
+  public function uploadUsers(Request $request)
+  {
+    try {
+      $this->userService->uploadUsers($request);
+
+      return 'tudo guardadin';
+    } catch (\Throwable $th) {
+      dd($th);
+      return response()->json($th . 'oicaraio');
+    }
+  }
 }

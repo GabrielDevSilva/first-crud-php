@@ -3,10 +3,12 @@
 namespace App\Services;
 
 use App\Helpers\Helpers;
+use App\Jobs\UsersCSVData;
 use App\Models\Address;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Support\Facades\Bus;
 
 class UserService
 {
@@ -159,5 +161,27 @@ class UserService
       "data" => $user
     ];
     return  response()->json($response);
+  }
+
+  public function uploadUsers(Request $request)
+  {
+    if ($request->has('csv')) {
+      $csv    = file($request->csv);
+      $chunks = array_chunk($csv, 1000);
+      $header = [];
+      $batch  = Bus::batch([])->dispatch();
+
+      foreach ($chunks as $key => $chunk) {
+        $data = array_map('str_getcsv', $chunk);
+        if ($key === 0) {
+          $header = $data[0];
+          unset($data[0]);
+        }
+        $batch->add(new UsersCSVData($data, $header));
+      }
+
+      return '$batch';
+    }
+    return 'faça upload do csv.';
   }
 }
