@@ -102,8 +102,7 @@ class Controller extends BaseController
 
       return 'tudo guardadin';
     } catch (\Throwable $th) {
-      dd($th);
-      return response()->json($th . 'oicaraio');
+      return response()->json($th);
     }
   }
 }
