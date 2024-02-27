@@ -3,6 +3,7 @@
 namespace App\Helpers;
 
 use Illuminate\Support\Facades\Http;
+use Illuminate\Validation\ValidationException;
 
 class Helpers
 {
@@ -16,7 +17,9 @@ class Helpers
     $cep = preg_replace('/\D/', '', $cep);
 
     if (strlen($cep) != 8) {
-      return false;
+      throw ValidationException::withMessages([
+        'error' => "CEP não encontrado."
+      ])->status(404);
     }
 
     $url = "https://viacep.com.br/ws/{$cep}/json";

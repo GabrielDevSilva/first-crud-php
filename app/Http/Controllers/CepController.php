@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Services\CepService;
+use Dotenv\Exception\ValidationException;
 
 class CepController
 {
@@ -22,7 +23,9 @@ class CepController
     } catch (\Throwable $exception) {
       $errors = $exception->getMessage();
 
-      return response()->json(['error' => $errors], 422);
+      $code = $exception->status;
+
+      return response()->json(['error' => $errors], $code !== null ? $code : 422);
     }
   }
 }

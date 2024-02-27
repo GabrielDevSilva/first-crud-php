@@ -100,7 +100,7 @@ class Controller extends BaseController
     try {
       $this->userService->uploadUsers($request);
 
-      return response()->json('Upload realizado com sucesso, dados salvos!!');
+      return response()->json(['Sucesso:' => 'Upload realizado com sucesso, dados salvos!!']);
     } catch (\Throwable $th) {
       return response()->json($th);
     }
