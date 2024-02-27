@@ -100,7 +100,7 @@ class Controller extends BaseController
     try {
       $this->userService->uploadUsers($request);
 
-      return 'tudo guardadin';
+      return response()->json('Upload realizado com sucesso, dados salvos!!');
     } catch (\Throwable $th) {
       return response()->json($th);
     }
